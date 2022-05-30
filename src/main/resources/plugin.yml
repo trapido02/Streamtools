@@ -1,0 +1,9 @@
+name: Streamtools
+version: '${project.version}'
+main: com.trapido02.Streamtools
+api-version: 1.18
+commands:
+  live:
+    description: Announce stream.
+    aliases: stream
+    usage: /live
