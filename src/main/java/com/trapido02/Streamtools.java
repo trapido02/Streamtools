@@ -15,6 +15,7 @@ public final class Streamtools extends JavaPlugin {
         System.out.println("Starting Streamtools!");
 
         // Prevent "NullPointerException"
+        Objects.requireNonNull(getCommand("stream")).setTabCompleter(new Stream());
         Objects.requireNonNull(getCommand("stream")).setExecutor(new Stream());
     }
 

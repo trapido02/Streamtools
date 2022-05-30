@@ -4,15 +4,23 @@ import com.trapido02.Msg;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.bukkit.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
 
-public class Stream implements CommandExecutor {
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class Stream implements CommandExecutor, TabCompleter {
     enum Platforms {
         TWITCH,
         YOUTUBE,
         DISCORD
     }
+
+    private static final String[] COMMANDS = { "TWITCH", "YOUTUBE", "DISCORD" };
 
     public static boolean contains(String v) {
         for (Platforms c : Platforms.values()) {
@@ -22,6 +30,17 @@ public class Stream implements CommandExecutor {
         }
 
         return false;
+    }
+
+    @Override
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
+        //create new array
+        final List<String> completions = new ArrayList<>();
+        //copy matches of first argument from list (ex: if first arg is 'm' will return just 'minecraft')
+        StringUtil.copyPartialMatches(args[0], List.of(COMMANDS), completions);
+        //sort the list
+        Collections.sort(completions);
+        return completions;
     }
 
     @Override
