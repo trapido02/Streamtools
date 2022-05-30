@@ -63,13 +63,15 @@ public class Live implements CommandExecutor, TabCompleter {
         }
 
         if (args.length == 2) {
-            if (contains(args[0])) {
-                Msg.serverSend("&4" + player.getName() + " has started streaming on " + args[0].toUpperCase() + "!");
+            Msg.serverSend("&4" + player.getName() + " has started streaming on " + args[0].toUpperCase() + "!");
 
+            if (contains(args[0])) {
                 if (args[0].equalsIgnoreCase("discord")) {
-                    Msg.serverSendURL("[JOIN DISCORD]", args[1]);
-                } else {
+                    Msg.serverSendURL("[JOIN DISCORD]", "https://discord.com/" + args[1]);
+                } else if (args[0].equalsIgnoreCase("twitch")) {
                     Msg.serverSendURL("[CLICK HERE TO JOIN STREAM]", "https://twitch.tv/" + args[1]);
+                } else if (args[0].equalsIgnoreCase("youtube")) {
+                    Msg.serverSendURL("[CLICK HERE TO JOIN STREAM]", "https://youtube.com/" + args[1]);
                 }
             }
 
