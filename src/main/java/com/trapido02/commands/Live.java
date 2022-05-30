@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Stream implements CommandExecutor, TabCompleter {
+public class Live implements CommandExecutor, TabCompleter {
     enum Platforms {
         TWITCH,
         YOUTUBE,
@@ -69,14 +69,14 @@ public class Stream implements CommandExecutor, TabCompleter {
                 if (args[0].equalsIgnoreCase("discord")) {
                     Msg.serverSendURL("[JOIN DISCORD]", args[1]);
                 } else {
-                    Msg.serverSendURL("[CLICK HERE TO JOIN STREAM]", args[1]);
+                    Msg.serverSendURL("[CLICK HERE TO JOIN STREAM]", "https://twitch.tv/" + args[1]);
                 }
             }
 
             return true;
         }
 
-        Msg.send(sender, "Incorrect usage of the command. /live [PLATFORM] [URL]");
+        Msg.send(sender, "Incorrect usage of the command. /live [PLATFORM] [USERNAME | DISCORD LINK]");
 
         return true;
     }

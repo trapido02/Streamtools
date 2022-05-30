@@ -1,6 +1,6 @@
 package com.trapido02;
 
-import com.trapido02.commands.Stream;
+import com.trapido02.commands.Live;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Objects;
@@ -15,8 +15,8 @@ public final class Streamtools extends JavaPlugin {
         System.out.println("Starting Streamtools!");
 
         // Prevent "NullPointerException"
-        Objects.requireNonNull(getCommand("stream")).setTabCompleter(new Stream());
-        Objects.requireNonNull(getCommand("stream")).setExecutor(new Stream());
+        Objects.requireNonNull(getCommand("stream")).setTabCompleter(new Live());
+        Objects.requireNonNull(getCommand("stream")).setExecutor(new Live());
     }
 
     @Override
