@@ -1,6 +1,8 @@
 package com.trapido02.commands;
 
-import com.trapido02.Msg;
+import com.trapido02.Message;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -34,11 +36,11 @@ public class Live implements CommandExecutor, TabCompleter {
 
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
-        //create new array
         final List<String> completions = new ArrayList<>();
-        //copy matches of first argument from list (ex: if first arg is 'm' will return just 'minecraft')
+
+        // Copy matches of first argument from list (ex: if first arg is 'm' will return just 'minecraft')
         StringUtil.copyPartialMatches(args[0], List.of(COMMANDS), completions);
-        //sort the list
+
         Collections.sort(completions);
         return completions;
     }
@@ -47,38 +49,49 @@ public class Live implements CommandExecutor, TabCompleter {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         // Make sure the command is called from a player and not the console
         if (!(sender instanceof Player player)) {
-            Msg.send(sender, "&cOnly players can use this command.");
+            Message.sendClient(sender, "&cOnly players can use this command.");
             return true;
         }
 
-        if (args.length == 1) {
-            if (contains(args[0])) {
-                Msg.serverSend("&4" + player.getName() + " has started streaming on " + args[0].toUpperCase() + "!");
-            }
-            if (args[0].equalsIgnoreCase("discord")) {
-                Msg.serverSendURL("[JOIN GULAG]", "https://discord.gg/3E2BsRUd8Q");
-            }
+        // Display the proper display name
+        Component comp = ((Player) sender).displayName();
 
-            return true;
-        }
+        if (args.length == 1 ) {
+            Message.sendServer(sender, comp.append(Component
+                    .text(" has started streaming on " + args[0].toUpperCase() + "!"))
+                    .color(NamedTextColor.DARK_PURPLE)
+            );
 
-        if (args.length == 2) {
-            Msg.serverSend("&4" + player.getName() + " has started streaming on " + args[0].toUpperCase() + "!");
-
+            // If the user didn't provide with a Discord invite, default it to the Gulag
             if (contains(args[0])) {
                 if (args[0].equalsIgnoreCase("discord")) {
-                    Msg.serverSendURL("[JOIN DISCORD]", "https://discord.com/" + args[1]);
-                } else if (args[0].equalsIgnoreCase("twitch")) {
-                    Msg.serverSendURL("[CLICK HERE TO JOIN STREAM]", "https://twitch.tv/" + args[1]);
-                } else if (args[0].equalsIgnoreCase("youtube")) {
-                    Msg.serverSendURL("[CLICK HERE TO JOIN STREAM]", "https://youtube.com/" + args[1]);
+                    Message.senderServerURL(sender, "[JOIN GULAG]", "https://discord.gg/BUNxGdVerg");
                 }
             }
 
             return true;
         }
 
-        Msg.send(sender, "Incorrect usage of the command. /live [PLATFORM] [USERNAME | DISCORD LINK]");
+        if (args.length == 2) {
+            Message.sendServer(sender, comp.append(Component
+                    .text(" has started streaming on " + args[0].toUpperCase() + "!"))
+                    .color(NamedTextColor.DARK_PURPLE)
+            );
+
+            if (contains(args[0])) {
+                if (args[0].equalsIgnoreCase("discord")) {
+                    Message.senderServerURL(sender, "[JOIN DISCORD]", "https://discord.com/" + args[1]);
+                } else if (args[0].equalsIgnoreCase("twitch")) {
+                    Message.senderServerURL(sender, "[JOIN STREAM]", "https://twitch.tv/" + args[1]);
+                } else if (args[0].equalsIgnoreCase("youtube")) {
+                    Message.senderServerURL(sender, "[JOIN STREAM]", "https://youtube.com/" + args[1]);
+                }
+            }
+
+            return true;
+        }
+
+        Message.sendClient(sender, "Incorrect usage of the command. /live [PLATFORM] [LINK]");
 
         return true;
     }
