@@ -56,36 +56,32 @@ public class Live implements CommandExecutor, TabCompleter {
         // Display the proper display name
         Component comp = ((Player) sender).displayName();
 
-        if (args.length == 1 ) {
+        if (args.length == 1 && contains(args[0])) {
             Message.sendServer(sender, comp.append(Component
                     .text(" has started streaming on " + args[0].toUpperCase() + "!"))
                     .color(NamedTextColor.DARK_PURPLE)
             );
 
             // If the user didn't provide with a Discord invite, default it to the Gulag
-            if (contains(args[0])) {
-                if (args[0].equalsIgnoreCase("discord")) {
-                    Message.senderServerURL(sender, "[JOIN GULAG]", "https://discord.gg/BUNxGdVerg");
-                }
+            if (args[0].equalsIgnoreCase("discord")) {
+                Message.senderServerURL(sender, "[JOIN GULAG]", "https://discord.gg/BUNxGdVerg");
             }
 
             return true;
         }
 
-        if (args.length == 2) {
+        if (args.length == 2 && contains(args[0])) {
             Message.sendServer(sender, comp.append(Component
                     .text(" has started streaming on " + args[0].toUpperCase() + "!"))
                     .color(NamedTextColor.DARK_PURPLE)
             );
 
-            if (contains(args[0])) {
-                if (args[0].equalsIgnoreCase("discord")) {
-                    Message.senderServerURL(sender, "[JOIN DISCORD]", "https://discord.com/" + args[1]);
-                } else if (args[0].equalsIgnoreCase("twitch")) {
-                    Message.senderServerURL(sender, "[JOIN STREAM]", "https://twitch.tv/" + args[1]);
-                } else if (args[0].equalsIgnoreCase("youtube")) {
-                    Message.senderServerURL(sender, "[JOIN STREAM]", "https://youtube.com/" + args[1]);
-                }
+            if (args[0].equalsIgnoreCase("discord")) {
+                Message.senderServerURL(sender, "[JOIN DISCORD]", "https://discord.com/" + args[1]);
+            } else if (args[0].equalsIgnoreCase("twitch")) {
+                Message.senderServerURL(sender, "[JOIN STREAM]", "https://twitch.tv/" + args[1]);
+            } else if (args[0].equalsIgnoreCase("youtube")) {
+                Message.senderServerURL(sender, "[JOIN STREAM]", "https://youtube.com/" + args[1]);
             }
 
             return true;
